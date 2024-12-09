@@ -56,4 +56,9 @@ public class AuthenticatorService : Authenticator.AuthenticatorBase
             RefreshToken = _tokenService.GetRefreshToken(validationResult.User!)
         };
     }
+
+    public override Task<RefreshResponse> Refresh(RefreshRequest request, ServerCallContext context)
+    {
+        throw new NotImplementedException("TODO");
+    }
 }
