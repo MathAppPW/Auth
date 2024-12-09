@@ -1,0 +1,83 @@
+# ASP.NET Core and gRPC-specific settings
+
+# Runtime and build artifacts
+bin/
+obj/
+
+# VS Code specific
+.vscode/
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Logs
+*.log
+logs/
+
+# Coverage and test results
+TestResults/
+*.coverage
+*.coveragexml
+coverage.opencover.xml
+coverage.cobertura.xml
+
+# Configuration files
+appsettings.json
+appsettings.Development.json
+
+# Secrets
+secrets.json
+*.key
+
+# Generated code (gRPC service-specific)
+Generated/
+
+# Build and packaging artifacts
+*.dll
+*.exe
+*.app
+*.pdb
+*.db
+*.cache
+*.bak
+*.swp
+
+# Publish outputs
+wwwroot/
+publish/
+
+# Rider specific
+.idea/
+
+# MacOS specific
+.DS_Store
+
+# Windows specific
+Thumbs.db
+desktop.ini
+
+# Dependency directories
+node_modules/
+packages/
+.vs/
+
+# NuGet files
+*.nupkg
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# JetBrains Rider IDE
+.idea/
+.idea_modules/
+
+# Visual Studio temporary files
+_ReSharper/
+.vscode/
+
+# Other development-related files
+.env
+
