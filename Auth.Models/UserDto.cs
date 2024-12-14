@@ -5,7 +5,7 @@ namespace Auth.Models;
 public class UserDto
 {
     [Required]
-    [StringLength(254, MinimumLength = 6)]
+    [StringLength(254, MinimumLength = 6)]//do wysylania miedzy serwisami i klientem
     public string Mail { get; set; }
 
     [Required]

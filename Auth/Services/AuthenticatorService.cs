@@ -57,8 +57,20 @@ public class AuthenticatorService : Authenticator.AuthenticatorBase
         };
     }
 
-    public override Task<RefreshResponse> Refresh(RefreshRequest request, ServerCallContext context)
+    public override async Task<RefreshResponse> Refresh(RefreshRequest request, ServerCallContext context)
     {
-        throw new NotImplementedException("TODO");
+        try
+        {
+            var email = await _tokenService.VerifyRefreshToken(request.RefreshToken);
+            var user = await _userService.GetUser(email);
+            var token = _tokenService.GetRefreshToken(user);
+            return new RefreshResponse
+            { IsSuccess = true, Message = "Token refreshed", AuthToken = token };
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("Internal server error: {e}", e);
+            return new RefreshResponse { IsSuccess = false, Message = e.Message };
+        }
     }
 }

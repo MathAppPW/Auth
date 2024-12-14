@@ -5,7 +5,7 @@ namespace Auth.Models;
 public class User
 {
     [Required] 
-    [StringLength(32, MinimumLength = 32)]
+    [StringLength(32, MinimumLength = 32)]//model do bazy danych
     public string Id { get; set; }
     
     [Required]
