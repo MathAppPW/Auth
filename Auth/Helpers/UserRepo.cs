@@ -9,101 +9,81 @@ namespace Auth.Helpers;
 
 public class UserRepo : IUserRepo
 {
-    private readonly string _connectionString = "Server=mathapp-tests.postgres.database.azure.com;Database=postgres;Port=5432;User Id=mathapp;Password=projektZespolowy123;Ssl Mode=Require;";
+    private readonly AppDbContext _context;
 
+    public UserRepo(AppDbContext context)
+    {
+        _context = context;
+    }
 
     public async Task<User> GetOneById(string id)
     {
         if (string.IsNullOrWhiteSpace(id))
         {
-            throw new ArgumentException("GetOneBtId() received empty id string", nameof(id));
+            throw new ArgumentException("GetOneById() received empty id string", nameof(id));
         }
 
-        using var connection = new SqlConnection(_connectionString);
-        await connection.OpenAsync();
-
-        using var command = new SqlCommand("SELECT * FROM Users WHERE Id = @Id", connection);
-        command.Parameters.AddWithValue("@Id", id);
-
-        using var reader = await command.ExecuteReaderAsync();
-        if (await reader.ReadAsync())
+        var user = await _context.Users.FindAsync(id);
+        if (user == null)
         {
-            return MapReaderToUser(reader);
+            throw new InvalidOperationException($"User with id {id} not found.");
         }
 
-        throw new InvalidOperationException($"User with id {id} not found.");
+        return user;
     }
 
     public async Task<User?> GetOneByMail(string mail)
     {
         if (string.IsNullOrWhiteSpace(mail))
         {
-            throw new ArgumentException("GetOneByMail() received ampty mail string", nameof(mail));
+            throw new ArgumentException("GetOneByMail() received empty mail string", nameof(mail));
         }
 
-        using var connection = new SqlConnection(_connectionString);
-        await connection.OpenAsync();
-
-        using var command = new SqlCommand("SELECT * FROM Users WHERE Mail = @Mail", connection);
-        command.Parameters.AddWithValue("@Mail", mail);
-
-        using var reader = await command.ExecuteReaderAsync();
-        if (await reader.ReadAsync())
-        {
-            return MapReaderToUser(reader);
-        }
-
-        throw new InvalidOperationException($"User with mail {mail} not found.");
+        return await _context.Users.FirstOrDefaultAsync(u => u.Mail == mail);
     }
 
     public async Task<User> AddUser(User user)
     {
-        using var connection = new SqlConnection(_connectionString);
-        await connection.OpenAsync();
+        if (user == null)
+        {
+            throw new ArgumentNullException(nameof(user));
+        }
 
-        using var command = new SqlCommand(
-            "INSERT INTO Users (Id, Mail, PasswordHash) VALUES (@Id, @Mail, @PasswordHash)", connection);
-        command.Parameters.AddWithValue("@Id", user.Id);
-        command.Parameters.AddWithValue("@Mail", user.Mail);
-        command.Parameters.AddWithValue("@PasswordHash", user.PasswordHash);
-
-        await command.ExecuteNonQueryAsync();
+        _context.Users.Add(user);
+        await _context.SaveChangesAsync();
         return user;
     }
 
     public async Task DeleteUser(User user)
     {
-        using var connection = new SqlConnection(_connectionString);
-        await connection.OpenAsync();
+        if (user == null)
+        {
+            throw new ArgumentNullException(nameof(user));
+        }
 
-        using var command = new SqlCommand("DELETE FROM Users WHERE Id = @Id", connection);
-        command.Parameters.AddWithValue("@Id", user.Id);
-
-        await command.ExecuteNonQueryAsync();
+        _context.Users.Remove(user);
+        await _context.SaveChangesAsync();
     }
 
     public async Task<User> UpdateUser(User user)
     {
-        using var connection = new SqlConnection(_connectionString);
-        await connection.OpenAsync();
-
-        using var command = new SqlCommand(
-            "UPDATE Users SET Mail = @Mail, PasswordHash = @PasswordHash WHERE Id = @Id", connection);
-        command.Parameters.AddWithValue("@Id", user.Id);
-        command.Parameters.AddWithValue("@Mail", user.Mail);
-        command.Parameters.AddWithValue("@PasswordHash", user.PasswordHash);
-
-        await command.ExecuteNonQueryAsync();
-        return user;
-    }
-
-    private User MapReaderToUser(SqlDataReader reader)
-    {
-        return new User
+        if (user == null)
         {
-            Id = reader["Id"].ToString(),
-            Mail = reader["Email"].ToString(),
-            PasswordHash = reader["PasswordHash"].ToString(),
-        };
+            throw new ArgumentNullException(nameof(user));
+        }
+
+        var existingUser = await _context.Users.FindAsync(user.Id);
+        if (existingUser == null)
+        {
+            throw new InvalidOperationException($"User with id {user.Id} not found.");
+        }
+
+        existingUser.Mail = user.Mail;
+        existingUser.PasswordHash = user.PasswordHash;
+
+        _context.Users.Update(existingUser);
+        await _context.SaveChangesAsync();
+
+        return existingUser;
     }
 }
