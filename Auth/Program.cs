@@ -1,5 +1,6 @@
 using Auth.Dal.Interfaces;
 using Auth.Helpers;
+using Auth.Helpers.Extensions;
 using Auth.Services;
 using Microsoft.EntityFrameworkCore;
 using Grpc.AspNetCore.Server;
@@ -15,6 +16,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
 
 builder.Services.AddScoped<IUserRepo, UserRepo>();
+builder.Services.AddServices();
 
 var app = builder.Build();
 
