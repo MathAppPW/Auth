@@ -12,12 +12,17 @@ public class UserRepo : IUserRepo
     private readonly string _connectionString = "Server=mathapp-tests.postgres.database.azure.com;Database=postgres;Port=5432;User Id=mathapp;Password=projektZespolowy123;Ssl Mode=Require;";
 
 
-    public async Task<User?> GetOneById(string id)
+    public async Task<User> GetOneById(string id)
     {
+        if (string.IsNullOrWhiteSpace(id))
+        {
+            throw new ArgumentException("GetOneBtId() received empty id string", nameof(id));
+        }
+
         using var connection = new SqlConnection(_connectionString);
         await connection.OpenAsync();
 
-        using var command = new SqlCommand("SELECT * FROM User WHERE Id = @Id", connection);
+        using var command = new SqlCommand("SELECT * FROM Users WHERE Id = @Id", connection);
         command.Parameters.AddWithValue("@Id", id);
 
         using var reader = await command.ExecuteReaderAsync();
@@ -26,15 +31,20 @@ public class UserRepo : IUserRepo
             return MapReaderToUser(reader);
         }
 
-        return null;
+        throw new InvalidOperationException($"User with id {id} not found.");
     }
 
     public async Task<User?> GetOneByMail(string mail)
     {
+        if (string.IsNullOrWhiteSpace(mail))
+        {
+            throw new ArgumentException("GetOneByMail() received ampty mail string", nameof(mail));
+        }
+
         using var connection = new SqlConnection(_connectionString);
         await connection.OpenAsync();
 
-        using var command = new SqlCommand("SELECT * FROM User WHERE Mail = @Mail", connection);
+        using var command = new SqlCommand("SELECT * FROM Users WHERE Mail = @Mail", connection);
         command.Parameters.AddWithValue("@Mail", mail);
 
         using var reader = await command.ExecuteReaderAsync();
@@ -43,7 +53,7 @@ public class UserRepo : IUserRepo
             return MapReaderToUser(reader);
         }
 
-        return null;
+        throw new InvalidOperationException($"User with mail {mail} not found.");
     }
 
     public async Task<User> AddUser(User user)
@@ -52,7 +62,7 @@ public class UserRepo : IUserRepo
         await connection.OpenAsync();
 
         using var command = new SqlCommand(
-            "INSERT INTO User (Id, Mail, PasswordHash) VALUES (@Id, @Mail, @PasswordHash)", connection);
+            "INSERT INTO Users (Id, Mail, PasswordHash) VALUES (@Id, @Mail, @PasswordHash)", connection);
         command.Parameters.AddWithValue("@Id", user.Id);
         command.Parameters.AddWithValue("@Mail", user.Mail);
         command.Parameters.AddWithValue("@PasswordHash", user.PasswordHash);
@@ -66,7 +76,7 @@ public class UserRepo : IUserRepo
         using var connection = new SqlConnection(_connectionString);
         await connection.OpenAsync();
 
-        using var command = new SqlCommand("DELETE FROM User WHERE Id = @Id", connection);
+        using var command = new SqlCommand("DELETE FROM Users WHERE Id = @Id", connection);
         command.Parameters.AddWithValue("@Id", user.Id);
 
         await command.ExecuteNonQueryAsync();
@@ -78,7 +88,7 @@ public class UserRepo : IUserRepo
         await connection.OpenAsync();
 
         using var command = new SqlCommand(
-            "UPDATE User SET Mail = @Mail, PasswordHash = @PasswordHash WHERE Id = @Id", connection);
+            "UPDATE Users SET Mail = @Mail, PasswordHash = @PasswordHash WHERE Id = @Id", connection);
         command.Parameters.AddWithValue("@Id", user.Id);
         command.Parameters.AddWithValue("@Mail", user.Mail);
         command.Parameters.AddWithValue("@PasswordHash", user.PasswordHash);
