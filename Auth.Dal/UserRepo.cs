@@ -5,7 +5,7 @@ using Auth.Dal.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
 
-namespace Auth.Helpers;
+namespace Auth.Dal;
 
 public class UserRepo : IUserRepo
 {
@@ -48,7 +48,6 @@ public class UserRepo : IUserRepo
         {
             throw new ArgumentNullException(nameof(user));
         }
-
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
         return user;

@@ -13,6 +13,6 @@ public class User
     public string Mail { get; set; }
     
     [Required]
-    [StringLength(60, MinimumLength = 60)]
+    [StringLength(88, MinimumLength = 88)]
     public string PasswordHash { get; set; }
 }

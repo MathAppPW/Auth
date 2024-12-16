@@ -19,13 +19,19 @@
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
           <PrivateAssets>all</PrivateAssets>
         </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0">
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+          <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
         <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.3.0" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.2" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Auth.Dal.Interfaces\Auth.Dal.Interfaces.csproj" />
+      <ProjectReference Include="..\Auth.Dal\Auth.Dal.csproj" />
       <ProjectReference Include="..\Auth.Models\Auth.Models.csproj" />
     </ItemGroup>
 

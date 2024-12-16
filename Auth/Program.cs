@@ -2,20 +2,25 @@ using Auth.Dal.Interfaces;
 using Auth.Helpers;
 using Auth.Helpers.Extensions;
 using Auth.Services;
+using Auth.Dal;
 using Microsoft.EntityFrameworkCore;
 using Grpc.AspNetCore.Server;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(5080, listenOptions =>
+    {
+        listenOptions.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http2;
+    });
+});
+
+builder.Services.AddDbContext<AppDbContext>(options =>{});
 
 // Add services to the container.
 builder.Services.AddGrpc();
 builder.Services.AddGrpcReflection();
 
-var connectionString = "Server=mathapp-tests.postgres.database.azure.com;Database=postgres;Port=5432;User Id=mathapp;Password=projektZespolowy123;Ssl Mode=Require;";
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(connectionString));
-
-builder.Services.AddScoped<IUserRepo, UserRepo>();
 builder.Services.AddServices();
 
 var app = builder.Build();

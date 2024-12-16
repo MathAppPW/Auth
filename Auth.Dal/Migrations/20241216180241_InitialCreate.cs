@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Auth.Migrations
+namespace Auth.Dal.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
@@ -16,7 +16,7 @@ namespace Auth.Migrations
                 {
                     Id = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
                     Mail = table.Column<string>(type: "character varying(254)", maxLength: 254, nullable: false),
-                    PasswordHash = table.Column<string>(type: "character varying(60)", maxLength: 60, nullable: false)
+                    PasswordHash = table.Column<string>(type: "character varying(88)", maxLength: 88, nullable: false)
                 },
                 constraints: table =>
                 {

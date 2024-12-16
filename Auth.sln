@@ -1,14 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth", "Auth\Auth.csproj", "{35D6E1FB-ADCC-4DE6-A265-A23D4BCDF23F}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auth", "Auth\Auth.csproj", "{35D6E1FB-ADCC-4DE6-A265-A23D4BCDF23F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth.Models", "Auth.Models\Auth.Models.csproj", "{1A9F0290-C7DD-4F10-8F38-CA5C67BF41E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auth.Models", "Auth.Models\Auth.Models.csproj", "{1A9F0290-C7DD-4F10-8F38-CA5C67BF41E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth.Dal.Interfaces", "Auth.Dal.Interfaces\Auth.Dal.Interfaces.csproj", "{6ECB6C81-E454-46BD-B72A-2CF342EA23B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auth.Dal.Interfaces", "Auth.Dal.Interfaces\Auth.Dal.Interfaces.csproj", "{6ECB6C81-E454-46BD-B72A-2CF342EA23B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth.HelpersTest", "Auth.HelpersTest\Auth.HelpersTest.csproj", "{D9A2D4BA-6162-4877-86BA-A6377C4C4899}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auth.HelpersTest", "Auth.HelpersTest\Auth.HelpersTest.csproj", "{D9A2D4BA-6162-4877-86BA-A6377C4C4899}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth.AcceptationTests", "Auth.AcceptationTests\Auth.AcceptationTests.csproj", "{E13B75AC-A59B-4EC3-A66F-A0C7377AA6DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth.Dal", "Auth.Dal\Auth.Dal.csproj", "{8CE095AE-16CA-4E01-8024-7ED1CA528B0A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,5 +41,12 @@ Global
 		{E13B75AC-A59B-4EC3-A66F-A0C7377AA6DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E13B75AC-A59B-4EC3-A66F-A0C7377AA6DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E13B75AC-A59B-4EC3-A66F-A0C7377AA6DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CE095AE-16CA-4E01-8024-7ED1CA528B0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CE095AE-16CA-4E01-8024-7ED1CA528B0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CE095AE-16CA-4E01-8024-7ED1CA528B0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CE095AE-16CA-4E01-8024-7ED1CA528B0A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal

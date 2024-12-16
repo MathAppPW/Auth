@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace Auth.Helpers
+namespace Auth.Dal
 {
     public class AppDbContext : DbContext
     {
@@ -10,6 +10,15 @@ namespace Auth.Helpers
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseNpgsql("Server=mathapp-tests.postgres.database.azure.com;Database=postgres;Port=5432;User Id=mathapp;Password=projektZespolowy123;Ssl Mode=Require;");
+            }
+            base.OnConfiguring(optionsBuilder);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -29,7 +38,7 @@ namespace Auth.Helpers
 
                 entity.Property(u => u.PasswordHash)
                     .IsRequired()
-                    .HasMaxLength(60);
+                    .HasMaxLength(88);
             });
         }
     }

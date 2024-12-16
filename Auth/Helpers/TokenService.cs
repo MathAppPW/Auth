@@ -18,6 +18,8 @@ public class TokenService : ITokenService
     {
         _authSettings = jwtSettings.Get("Auth");
         _refreshSettings = jwtSettings.Get("Refresh");
+        Console.WriteLine("auth: "+_authSettings.SecretKey);
+        Console.WriteLine("ref: " + _refreshSettings.SecretKey);
     }
 
     public string GetLoginToken(User user) => GenerateToken(_authSettings, user);

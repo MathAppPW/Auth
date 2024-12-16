@@ -1,3 +1,5 @@
+using Auth.Dal.Interfaces;
+using Auth.Dal;
 using Auth.Helpers.Interfaces;
 using Auth.Interfaces;
 
@@ -11,5 +13,6 @@ public static class DependencyInjection
         services.AddScoped<IPasswordHashingService, PasswordHashingService>();
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IUserRepo, UserRepo>();
     }
 }
