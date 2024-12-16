@@ -73,6 +73,12 @@ public class UserService : IUserService
 
         return ValidationResult.Success("Logged in successfully", model);
     }
+
+    public async Task<User?> GetUser(string mail)
+    {
+        var user = await _userRepo.GetOneByMail(mail);
+        return user;
+    }
     
     private void LogFailedToRegister(UserDto dto, string message)
     {

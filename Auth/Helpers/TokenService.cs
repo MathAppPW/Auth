@@ -18,12 +18,14 @@ public class TokenService : ITokenService
     {
         _authSettings = jwtSettings.Get("Auth");
         _refreshSettings = jwtSettings.Get("Refresh");
+        Console.WriteLine("auth: "+_authSettings.SecretKey);
+        Console.WriteLine("ref: " + _refreshSettings.SecretKey);
     }
 
     public string GetLoginToken(User user) => GenerateToken(_authSettings, user);
     public string GetRefreshToken(User user) => GenerateToken(_refreshSettings, user);
 
-    public async Task<string?> VerifyRefreshToken(string token) => await VerifyToken(_refreshSettings, token);
+    public async Task<string?> VerifyRefreshToken(string token) => await VerifyToken(_refreshSettings, token);//zwraca mail uytkownika
     
     private async Task<string?> VerifyToken(JwtSettings settings, string token)
     {
