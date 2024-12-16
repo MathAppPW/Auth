@@ -62,8 +62,12 @@ public class AuthenticatorService : Authenticator.AuthenticatorBase
         try
         {
             var email = await _tokenService.VerifyRefreshToken(request.RefreshToken);
+            if (email == null)
+            {
+                return new RefreshResponse { IsSuccess = false, Message = "Invalid refresh token" };
+            }
             var user = await _userService.GetUser(email);
-            var token = _tokenService.GetRefreshToken(user);
+            var token = _tokenService.GetLoginToken(user);
             return new RefreshResponse
             { IsSuccess = true, Message = "Token refreshed", AuthToken = token };
         }

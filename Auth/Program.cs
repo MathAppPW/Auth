@@ -3,6 +3,7 @@ using Auth.Helpers;
 using Auth.Helpers.Extensions;
 using Auth.Services;
 using Auth.Dal;
+using Auth.Dal.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Grpc.AspNetCore.Server;
 
@@ -22,6 +23,7 @@ builder.Services.AddGrpc();
 builder.Services.AddGrpcReflection();
 
 builder.Services.AddServices();
+builder.Services.AddRepos();
 
 var app = builder.Build();
 
