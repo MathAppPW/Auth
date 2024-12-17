@@ -1,22 +1,17 @@
-using Auth.Dal.Interfaces;
-using Auth.Helpers;
 using Auth.Helpers.Extensions;
 using Auth.Services;
 using Auth.Dal;
 using Auth.Dal.Extensions;
-using Microsoft.EntityFrameworkCore;
-using Grpc.AspNetCore.Server;
+using Auth.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.WebHost.ConfigureKestrel(options =>
-{
-    options.ListenAnyIP(5080, listenOptions =>
-    {
-        listenOptions.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http2;
-    });
-});
 
-builder.Services.AddDbContext<AppDbContext>(options =>{});
+builder.Services.AddDbContext<AppDbContext>();
+
+var jwtSection = builder.Configuration.GetSection("JwtSettings");
+builder.Services.Configure<JwtSettings>("Auth", jwtSection.GetSection("Auth"));
+builder.Services.Configure<JwtSettings>("Refresh", jwtSection.GetSection("Refresh"));
+
 
 // Add services to the container.
 builder.Services.AddGrpc();
@@ -24,6 +19,7 @@ builder.Services.AddGrpcReflection();
 
 builder.Services.AddServices();
 builder.Services.AddRepos();
+
 
 var app = builder.Build();
 

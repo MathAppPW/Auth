@@ -1,0 +1,33 @@
+# Use the .NET SDK image for building and publishing
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /app
+
+# Copy the solution file
+COPY *.sln ./
+
+# Copy project files
+COPY Auth/*.csproj Auth/
+COPY Auth.Dal/*.csproj Auth.Dal/
+COPY Auth.Dal.Interfaces/*.csproj Auth.Dal.Interfaces/
+COPY Auth.Models/*.csproj Auth.Models/
+
+# Restore all projects via the solution or the main project file
+RUN dotnet restore Auth/Auth.csproj
+
+# Now copy the entire solution
+COPY . .
+
+# Publish the project in Release mode
+RUN dotnet publish Auth/Auth.csproj -c Release -o /out
+
+# Use a smaller runtime-only image for the final stage
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+WORKDIR /app
+COPY --from=build /out ./
+
+EXPOSE 5080
+ENV ASPNETCORE_ENVIRONMENT=Production
+
+# Run the compiled DLL
+ENTRYPOINT ["dotnet", "Auth.dll"]
+
